@@ -285,6 +285,14 @@
         src="https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png"
         alt="Logo Cyber Alerta"
       />
+      <div id="loading" style="display: none">
+        <i
+          class="fa-solid fa-magnifying-glass fa-beat highlight"
+          style="font-size: 2rem"
+        ></i>
+        <p style="margin-top: 1rem; font-weight: 600">Consultando...</p>
+      </div>
+
       <h2 id="titulo">
         <i class="fa-solid fa-magnifying-glass highlight"></i> Consultar
         autenticidade
@@ -443,18 +451,65 @@
           document.documentElement.style.setProperty(prop, cores[prop]);
       }
 
+      function mostrarLoading() {
+        document.getElementById("loading").style.display = "block";
+        inputDom.style.display = "none";
+        btnBuscar.style.display = "none";
+        infoEl.style.display = "none";
+        btnSolicitar.style.display = "none";
+        tituloEl.style.display = "none";
+        subtituloEl.style.display = "none";
+      }
+
+      function esconderLoading() {
+        document.getElementById("loading").style.display = "none";
+        tituloEl.style.display = "block";
+        subtituloEl.style.display = "block";
+      }
+
+      function resetCard() {
+        inputDom.style.display = "block";
+        btnBuscar.style.display = "inline-block";
+
+        infoEl.style.display = "none";
+        btnSolicitar.style.display = "none";
+
+        tituloEl.innerHTML =
+          '<i class="fa-solid fa-magnifying-glass highlight"></i> Consultar autenticidade';
+        subtituloEl.innerHTML =
+          'Verificar <span class="highlight">blindagem digital</span> no banco <b>Cyber Alerta</b>.';
+
+        badgeEl.src = badgeImgs.logo;
+
+        aplicarCores("platinum");
+
+        dominioSpan.textContent = "";
+        dataSpan.textContent = "";
+        validadeSpan.textContent = "";
+        idSpan.textContent = "";
+      }
+
       btnBuscar.addEventListener("click", async () => {
         const valor = inputDom.value.trim();
         if (!valor) return alert("Digite um domínio ou ID para buscar.");
 
+        mostrarLoading(); 
+
         try {
           const resultado = await buscarDominioOuId(valor);
-          if (!resultado)
-            return alert("Nenhum registro encontrado no banco Cyber Alerta.");
+          if (!resultado) {
+            esconderLoading(); 
+            alert("Nenhum registro encontrado no banco Cyber Alerta.");
+            resetCard();
+            return;
+          }
           mostrarDados(resultado);
         } catch (e) {
           console.error(e);
           alert("Erro ao consultar o banco Cyber Alerta.");
+          resetCard();
+        } finally {
+          esconderLoading();
         }
       });
 
@@ -472,17 +527,21 @@
 
         if (query) {
           inputDom.value = query;
+          mostrarLoading(); // 👈 mostra animação enquanto busca
 
           try {
             const resultado = await buscarDominioOuId(query);
             if (resultado) {
               mostrarDados(resultado);
             } else {
+              esconderLoading();
               alert("Nenhum registro encontrado no banco Cyber Alerta.");
             }
           } catch (e) {
             console.error(e);
             alert("Erro ao consultar o banco Cyber Alerta.");
+          } finally {
+            esconderLoading();
           }
         }
       });
