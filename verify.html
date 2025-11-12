@@ -303,6 +303,11 @@
           <span id="data" class="highlight"></span>
         </div>
         <div class="info-item">
+          <i class="fa-solid fa-clock highlight"></i>
+          <span>Validade:</span>
+          <span id="validade" class="highlight"></span>
+        </div>
+        <div class="info-item">
           <i class="fa-solid fa-fingerprint highlight"></i>
           <span>ID de Verificação:</span>
           <span id="verificacao" class="highlight"></span>
@@ -326,7 +331,7 @@
 
     <script>
       const API_URL =
-        "https://script.google.com/macros/s/AKfycbxp7y0D1VbeS1oDPif_VWX2SKedcWLmrf3nGFdImgHEHQM4571JKSaveqbHjbZdH14/exec";
+        "https://script.google.com/macros/s/AKfycbxH5qVjFnRAFnHujk6AlFPluE4dVE_1II86AOV-oJfQbI5NHRVzhdGe-iPqaHOfk6M/exec";
 
       const badgeImgs = {
         logo: "https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png",
@@ -391,6 +396,7 @@
       const btnSolicitar = document.getElementById("btnSolicitar");
       const dominioSpan = document.getElementById("dominio");
       const dataSpan = document.getElementById("data");
+      const validadeSpan = document.getElementById("validade");
       const idSpan = document.getElementById("verificacao");
 
       function limparPrefixo(dom) {
@@ -412,7 +418,8 @@
 
       function mostrarDados(item) {
         dominioSpan.textContent = item.dominio;
-        dataSpan.textContent = item.data;
+        dataSpan.textContent = item.purchase_data;
+        validadeSpan.textContent = item.expires_in;
         idSpan.textContent = item.id;
 
         infoEl.style.display = "flex";
