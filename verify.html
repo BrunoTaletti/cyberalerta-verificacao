@@ -527,7 +527,7 @@
 
         if (query) {
           inputDom.value = query;
-          mostrarLoading(); // 👈 mostra animação enquanto busca
+          mostrarLoading();
 
           try {
             const resultado = await buscarDominioOuId(query);
@@ -536,10 +536,12 @@
             } else {
               esconderLoading();
               alert("Nenhum registro encontrado no banco Cyber Alerta.");
+              resetCard();
             }
           } catch (e) {
             console.error(e);
             alert("Erro ao consultar o banco Cyber Alerta.");
+            resetCard();
           } finally {
             esconderLoading();
           }
