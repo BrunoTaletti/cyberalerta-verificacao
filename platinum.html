@@ -1,322 +1,357 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Verificação Digital | Cyber Alerta</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verificação Digital | Cyber Alerta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      rel="shortcut icon"
+      href="https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png"
+      type="image/x-icon"
+    />
+    
+    <style>
+      /* ---------- BASE ---------- */
+      :root {
+        --font-primary: "Montserrat", sans-serif;
+        --text-color: #ffffff;
+        --highlight-gradient: linear-gradient(
+          135deg,
+          rgba(1, 153, 211, 1) 0%,
+          rgba(27, 192, 223, 1) 50%
+        );
+        --card-gradient: linear-gradient(
+          180deg,
+          rgba(27, 192, 223, 0) 0%,
+          rgba(27, 192, 223, 0.6) 35%,
+          rgba(27, 192, 223, 1) 100%
+        );
+        --badge-shadow: drop-shadow(0 0 5px rgba(27, 192, 223, 0.35));
+        --button-gradient: linear-gradient(135deg, #70e1df 0%, #1bc0df 50%);
+        --button-gradient-hover: linear-gradient(
+          135deg,
+          #70e1df 0%,
+          #10a0df 100%
+        );
+        --button-gradient-hover-shadow: 0 0 25px 3px rgba(112, 225, 223, 0.62);
+      }
 
-  <style>
-    /* ---------- BASE ---------- */
-    :root {
-      --font-primary: 'Montserrat', sans-serif;
-      --text-color: #ffffff;
-      --highlight-gradient: linear-gradient(135deg, rgba(1,153,211,1) 0%, rgba(27,192,223,1) 50%);
-      --card-gradient: linear-gradient(180deg, rgba(27, 192, 223, 0) 0%, rgba(27, 192, 223, 0.6) 35%, rgba(27, 192, 223, 1) 100%);
-      --badge-shadow: drop-shadow(0 0 5px rgba(27, 192, 223, 0.35));
-      --button-gradient: linear-gradient(135deg, #70E1DF 0%, #1BC0DF 50%);
-      --button-gradient-hover: linear-gradient(135deg, #70E1DF 0%, #10A0DF 100%);
-      --button-gradient-hover-shadow: 0 0 25px 3px rgba(112, 225, 223, 0.62);
-    }
+      body {
+        background: radial-gradient(circle at center, #0b1820 0%, #010101 80%);
+        color: var(--text-color);
+        font-family: var(--font-primary);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+      }
 
-    body {
-      background: radial-gradient(circle at center, #0b1820 0%, #010101 80%);
-      color: var(--text-color);
-      font-family: var(--font-primary);
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-      text-align: center;
-    }
-
-    /* ---------- CARD CONTAINER ---------- */
-    .container {
-      width: 100%;
-      max-width: 500px;
-      background: linear-gradient(180deg, #111115 0%, #020202 100%);
-      border-radius: 16px;
-      padding: 2.5rem;
-      color: white;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 2px;
-      background: var(--card-gradient);
-      -webkit-mask:
-        linear-gradient(#fff 0 0) content-box,
-        linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    /* ---------- TIPOGRAFIA ---------- */
-    h2 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin: 1rem 0 0.5rem;
-      text-transform: uppercase;
-    }
-
-    h4 {
-      font-size: 1rem;
-      font-weight: 500;
-      line-height: 1.6;
-      margin: 0.5rem 0 1.5rem;
-      max-width: 90%;
-    }
-
-    .highlight {
-      background: var(--highlight-gradient);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      font-weight: 700;
-    }
-
-    /* ---------- ELEMENTOS ---------- */
-    .badge {
-      display: block;
-      width: 68%;
-      max-width: 240px;
-      filter: var(--badge-shadow);
-      transition: transform 0.3s ease;
-    }
-
-    .badge:hover {
-      transform: scale(1.05);
-    }
-
-    .info {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      width: 100%;
-      margin-top: 1.5rem;
-      gap: 0.6rem;
-    }
-
-    .info-item {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-
-    .info-item i {
-      min-width: 18px;
-    }
-
-    #verificacao{
-        cursor: pointer;
-        transition: all 0.3s ease-in-out;
-    }
-
-    #verificacao:hover{
-        transform: scale(1.05);
-    }
-
-    /* ---------- BOTÃO ---------- */
-    .button {
-      display: inline-block;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1rem;
-      background-image: var(--button-gradient);
-      padding: 0.9rem 2rem;
-      border-radius: 6px;
-      transition: all 0.3s ease-in-out;
-      width: 100%;
-      max-width: 300px;
-      margin-top: 2rem;
-    }
-
-    .button a {
-      color: #00041C;
-      text-decoration: none;
-      display: block;
-    }
-
-    .button:hover,
-    .button:focus {
-      background-image: var(--button-gradient-hover);
-      transform: scale(1.05);
-      box-shadow: var(--button-gradient-hover-shadow);
-    }
-
-    /* ---------- FOOTER ---------- */
-    .footer {
-      margin-top: 1.5rem;
-      font-size: 0.75rem;
-      color: #999;
-      text-align: center;
-      font-weight: 400;
-      letter-spacing: 0.3px;
-    }
-
-    /* ---------- COPIAR MENSAGEM ---------- */
-    #copiadoMsg {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background-color: #10A0DF;
-      color: #fff;
-      font-family: var(--font-primary);
-      padding: 10px 16px;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      opacity: 0;
-      transform: translateY(-20px);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      pointer-events: none;
-      z-index: 1000;
-      font-size: 0.9rem;
-    }
-
-    #copiadoMsg.mostrar {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ---------- RESPONSIVIDADE ---------- */
-    @media (max-width: 768px) {
+      /* ---------- CARD CONTAINER ---------- */
       .container {
-        max-width: 92%;
-        padding: 1.8rem 1.2rem;
+        width: 100%;
+        max-width: 500px;
+        background: linear-gradient(180deg, #111115 0%, #020202 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: white;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
       }
 
-      .badge {
-        width: 80%;
-        max-width: 200px;
+      .container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 2px;
+        background: var(--card-gradient);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
       }
 
+      /* ---------- TIPOGRAFIA ---------- */
       h2 {
-        font-size: 1.3rem;
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 1rem 0 0.5rem;
+        text-transform: uppercase;
       }
 
       h4 {
-        font-size: 0.9rem;
-        line-height: 1.5;
-        margin-bottom: 1rem;
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        margin: 0.5rem 0 1.5rem;
+        max-width: 90%;
+      }
+
+      .highlight {
+        background: var(--highlight-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+      }
+
+      /* ---------- ELEMENTOS ---------- */
+      .badge {
+        display: block;
+        width: 68%;
+        max-width: 240px;
+        filter: var(--badge-shadow);
+        transition: transform 0.3s ease;
+      }
+
+      .badge:hover {
+        transform: scale(1.05);
       }
 
       .info {
-        font-size: 0.85rem;
-        gap: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        width: 100%;
+        margin-top: 1.5rem;
+        gap: 0.6rem;
       }
 
+      .info-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .info-item i {
+        min-width: 18px;
+      }
+
+      #verificacao {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      #verificacao:hover {
+        transform: scale(1.05);
+      }
+
+      /* ---------- BOTÃO ---------- */
       .button {
-        font-size: 0.9rem;
-        width: 90%;
-        padding: 0.8rem 0;
-        margin: 1.5rem auto 0;
+        display: inline-block;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1rem;
+        background-image: var(--button-gradient);
+        padding: 0.9rem 2rem;
+        border-radius: 6px;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        max-width: 300px;
+        margin-top: 2rem;
       }
 
+      .button a {
+        color: #00041c;
+        text-decoration: none;
+        display: block;
+      }
+
+      .button:hover,
+      .button:focus {
+        background-image: var(--button-gradient-hover);
+        transform: scale(1.05);
+        box-shadow: var(--button-gradient-hover-shadow);
+      }
+
+      /* ---------- FOOTER ---------- */
       .footer {
-        font-size: 0.7rem;
+        margin-top: 1.5rem;
+        font-size: 0.75rem;
+        color: #999;
+        text-align: center;
+        font-weight: 400;
+        letter-spacing: 0.3px;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <div class="container">
-    <img class="badge" src="https://cyberalerta.com/wp-content/uploads/2025/11/selo-platinum.png" alt="Selo de Verificação Digital">
-
-    <h2>
-      <i class="fa-solid fa-check-double highlight"></i> 
-      Site Verificado
-    </h2>
-
-    <h4>
-      Este domínio está 
-      <span class="highlight">blindado digitalmente</span> 
-      pela equipe da <strong>Cyber Alerta</strong>.
-    </h4>
-
-    <div class="info">
-      <div class="info-item">
-        <i class="fa-solid fa-lock highlight"></i> 
-        <span>Domínio:</span>
-        <span id="dominio" class="highlight"></span>
-      </div>
-      <div class="info-item">
-        <i class="fa-solid fa-calendar highlight"></i> 
-        <span>Data de Verificação:</span> 
-        <span id="data" class="highlight"></span>
-      </div>
-      <div class="info-item">
-        <i class="fa-solid fa-fingerprint highlight"></i>
-        <span>ID de Verificação:</span>
-        <span id="verificacao" class="highlight"></span>
-        <div id="copiadoMsg">Copiado!</div>
-      </div>
-    </div>
-
-    <div class="button">
-      <a href="https://wa.me/5511962599618?text=Olá%2C+quero+falar+com+um+especialista+da+Cyber+Alerta" target="_blank">
-        Solicitar Selo de Proteção
-      </a>
-    </div>
-
-    <div class="footer">
-      Cyber Alerta™ — Protegendo negócios digitais de hackers desde 2024.
-    </div>
-  </div>
-
-  <script>
-    document.getElementById("dominio").textContent = window.location.hostname;
-
-    const dataAtual = new Date();
-    document.getElementById("data").textContent = dataAtual.toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    });
-
-    function gerarID(length) {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      let id = 'CA-';
-      for (let i = 0; i < length; i++) {
-        id += chars.charAt(Math.floor(Math.random() * chars.length));
+      /* ---------- COPIAR MENSAGEM ---------- */
+      #copiadoMsg {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #10a0df;
+        color: #fff;
+        font-family: var(--font-primary);
+        padding: 10px 16px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        pointer-events: none;
+        z-index: 1000;
+        font-size: 0.9rem;
       }
-      return id;
-    }
 
-    const verificacaoEl = document.getElementById("verificacao");
-    verificacaoEl.textContent = gerarID(8);
+      #copiadoMsg.mostrar {
+        opacity: 1;
+        transform: translateY(0);
+      }
 
-    verificacaoEl.addEventListener('click', () => {
-      const texto = verificacaoEl.innerText;
-      navigator.clipboard.writeText(texto).then(() => {
-        const msg = document.getElementById('copiadoMsg');
-        msg.classList.add('mostrar');
-        setTimeout(() => msg.classList.remove('mostrar'), 2000);
-      }).catch(err => console.error('Erro ao copiar:', err));
-    });
-  </script>
+      /* ---------- RESPONSIVIDADE ---------- */
+      @media (max-width: 768px) {
+        .container {
+          max-width: 92%;
+          padding: 1.8rem 1.2rem;
+        }
 
-</body>
+        .badge {
+          width: 80%;
+          max-width: 200px;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+        }
+
+        h4 {
+          font-size: 0.9rem;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+        }
+
+        .info {
+          font-size: 0.85rem;
+          gap: 0.5rem;
+        }
+
+        .button {
+          font-size: 0.9rem;
+          width: 90%;
+          padding: 0.8rem 0;
+          margin: 1.5rem auto 0;
+        }
+
+        .footer {
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="badge"
+        src="https://cyberalerta.com/wp-content/uploads/2025/11/selo-platinum.png"
+        alt="Selo de Verificação Digital"
+      />
+
+      <h2>
+        <i class="fa-solid fa-check-double highlight"></i>
+        Site Verificado
+      </h2>
+
+      <h4>
+        Este domínio está
+        <span class="highlight">blindado digitalmente</span>
+        pela equipe da <strong>Cyber Alerta</strong>.
+      </h4>
+
+      <div class="info">
+        <div class="info-item">
+          <i class="fa-solid fa-lock highlight"></i>
+          <span>Domínio:</span>
+          <span id="dominio" class="highlight"></span>
+        </div>
+        <div class="info-item">
+          <i class="fa-solid fa-calendar highlight"></i>
+          <span>Data de Verificação:</span>
+          <span id="data" class="highlight"></span>
+        </div>
+        <div class="info-item">
+          <i class="fa-solid fa-fingerprint highlight"></i>
+          <span>ID de Verificação:</span>
+          <span id="verificacao" class="highlight"></span>
+          <div id="copiadoMsg">Copiado!</div>
+        </div>
+      </div>
+
+      <div class="button">
+        <a
+          href="https://wa.me/5511962599618?text=Olá%2C+quero+falar+com+um+especialista+da+Cyber+Alerta"
+          target="_blank"
+        >
+          Solicitar Selo de Proteção
+        </a>
+      </div>
+
+      <div class="footer">
+        Cyber Alerta™ — Protegendo negócios digitais de hackers desde 2024.
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("dominio").textContent = window.location.hostname;
+
+      const dataAtual = new Date();
+      document.getElementById("data").textContent =
+        dataAtual.toLocaleDateString("pt-BR", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        });
+
+      function gerarID(length) {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        let id = "CA-";
+        for (let i = 0; i < length; i++) {
+          id += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return id;
+      }
+
+      const verificacaoEl = document.getElementById("verificacao");
+      verificacaoEl.textContent = gerarID(8);
+
+      verificacaoEl.addEventListener("click", () => {
+        const texto = verificacaoEl.innerText;
+        navigator.clipboard
+          .writeText(texto)
+          .then(() => {
+            const msg = document.getElementById("copiadoMsg");
+            msg.classList.add("mostrar");
+            setTimeout(() => msg.classList.remove("mostrar"), 2000);
+          })
+          .catch((err) => console.error("Erro ao copiar:", err));
+      });
+    </script>
+  </body>
 </html>
