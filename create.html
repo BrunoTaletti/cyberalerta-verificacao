@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Verificação Digital | Cyber Alerta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      crossorigin="anonymous"
+    />
+
+    <style>
+      /* ---------- BASE ---------- */
+      :root {
+        --font-primary: "Montserrat", sans-serif;
+        --text-color: #ffffff;
+        --highlight-gradient: linear-gradient(
+          135deg,
+          rgba(1, 153, 211, 1) 0%,
+          rgba(27, 192, 223, 1) 50%
+        );
+        --card-gradient: linear-gradient(
+          180deg,
+          rgba(27, 192, 223, 0) 0%,
+          rgba(27, 192, 223, 0.6) 35%,
+          rgba(27, 192, 223, 1) 100%
+        );
+        --badge-shadow: drop-shadow(0 0 5px rgba(27, 192, 223, 0.35));
+        --button-gradient: linear-gradient(135deg, #70e1df 0%, #1bc0df 50%);
+        --button-gradient-hover: linear-gradient(
+          135deg,
+          #70e1df 0%,
+          #10a0df 100%
+        );
+        --button-gradient-hover-shadow: 0 0 25px 3px rgba(112, 225, 223, 0.62);
+      }
+
+      body {
+        background: radial-gradient(circle at center, #0b1820 0%, #010101 80%);
+        color: var(--text-color);
+        font-family: var(--font-primary);
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 20px;
+        box-sizing: border-box;
+        text-align: center;
+      }
+
+      /* ---------- CARD CONTAINER ---------- */
+      .container {
+        width: 100%;
+        max-width: 500px;
+        background: linear-gradient(180deg, #111115 0%, #020202 100%);
+        border-radius: 16px;
+        padding: 2.5rem;
+        color: white;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 2px;
+        background: var(--card-gradient);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box,
+          linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      /* ---------- TIPOGRAFIA ---------- */
+      h2 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        margin: 1rem 0 0.5rem;
+        text-transform: uppercase;
+      }
+
+      h4 {
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1.6;
+        margin: 0.5rem 0 1.5rem;
+        max-width: 90%;
+      }
+
+      .highlight {
+        background: var(--highlight-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        font-weight: 700;
+      }
+
+      /* ---------- ELEMENTOS ---------- */
+      .badge {
+        display: block;
+        width: 68%;
+        max-width: 240px;
+        filter: var(--badge-shadow);
+        transition: transform 0.3s ease;
+        margin-bottom: 1.5rem;
+      }
+
+      .badge:hover {
+        transform: scale(1.05);
+      }
+
+      input#dominioInput,
+      select#badgeSelect,
+      select#expireSelect {
+        width: 100%;
+        max-width: 360px;
+        padding: 0.8rem;
+        border-radius: 6px;
+        border: none;
+        font-size: 1rem;
+        box-sizing: border-box;
+        margin-bottom: 1.5rem;
+      }
+
+      .info {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        width: 100%;
+        margin: 1.5rem 0;
+        gap: 0.6rem;
+      }
+
+      .info-item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+
+      .info-item i {
+        min-width: 18px;
+      }
+
+      #verificacao {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      #verificacao:hover {
+        transform: scale(1.05);
+      }
+
+      /* ---------- BOTÕES ---------- */
+      .button {
+        color: #00041c;
+        display: inline-block;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1rem;
+        background-image: var(--button-gradient);
+        padding: 0.9rem 2rem;
+        border-radius: 6px;
+        transition: all 0.3s ease-in-out;
+        width: 100%;
+        max-width: 300px;
+        cursor: pointer;
+      }
+
+      .button a {
+        color: #00041c;
+        text-decoration: none;
+        display: block;
+      }
+
+      .button:hover,
+      .button:focus {
+        background-image: var(--button-gradient-hover);
+        transform: scale(1.05);
+        box-shadow: var(--button-gradient-hover-shadow);
+      }
+
+      /* ---------- FOOTER ---------- */
+      .footer {
+        margin-top: 1.5rem;
+        font-size: 0.75rem;
+        color: #999;
+        text-align: center;
+        font-weight: 400;
+        letter-spacing: 0.3px;
+      }
+
+      /* ---------- COPIAR MENSAGEM ---------- */
+      #cadastradoMsg {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background-color: #10a0df;
+        color: #fff;
+        font-family: var(--font-primary);
+        padding: 10px 16px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        pointer-events: none;
+        z-index: 1000;
+        font-size: 0.9rem;
+      }
+
+      #cadastradoMsg.mostrar {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ---------- RESPONSIVIDADE ---------- */
+      @media (max-width: 768px) {
+        .container {
+          max-width: 92%;
+          padding: 1.8rem 1.2rem;
+        }
+
+        .badge {
+          width: 80%;
+          max-width: 200px;
+        }
+
+        h2 {
+          font-size: 1.3rem;
+        }
+
+        h4 {
+          font-size: 0.9rem;
+          line-height: 1.5;
+          margin-bottom: 1rem;
+        }
+
+        .info {
+          font-size: 0.85rem;
+          gap: 0.5rem;
+        }
+
+        .button {
+          font-size: 0.9rem;
+          width: 90%;
+          padding: 0.8rem 0;
+          margin: 1.5rem auto 0;
+        }
+
+        .footer {
+          font-size: 0.7rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="badge"
+        id="badgeLogo"
+        src="https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png"
+        alt="Logo Cyber Alerta"
+      />
+      <h2 id="titulo">
+        <i class="fa-solid fa-shield highlight"></i> Cadastro de Clientes
+      </h2>
+      <h4 id="subtitulo">
+        Adicionar <span class="highlight">blindagem digital</span> no banco
+        <b>Cyber Alerta</b>.
+      </h4>
+
+      <input type="text" id="dominioInput" placeholder="Digite domínio" />
+
+      <select name="badges" id="badgeSelect">
+        <option value="">-- Escolha o Selo --</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
+        <option value="platinum">Platinum</option>
+      </select>
+
+      <select name="expires" id="expireSelect">
+        <option value="">-- Expira em --</option>
+        <option value="3">3 meses</option>
+        <option value="6">6 meses</option>
+        <option value="12">12 meses</option>
+        <option value="24">24 meses</option>
+      </select>
+
+      <div class="button" id="btnCadastrar">Cadastrar</div>
+
+      <div id="cadastradoMsg">Cadastrado!</div>
+
+      <div class="footer">
+        Cyber Alerta™ — Protegendo negócios digitais de hackers desde 2024.
+      </div>
+    </div>
+
+    <script>
+      const API_URL =
+        "https://script.google.com/macros/s/AKfycbxLaIYovfC_pn285L2KPbjW4IgNhABoE_XHp1SZCKHAJ8e48IgeTwMD_934WVTKbdU/exec";
+      const btnCadastrar = document.getElementById("btnCadastrar");
+      const inputDomain = document.getElementById("dominioInput");
+      const inputBadge = document.getElementById("badgeSelect");
+      const inputExpire = document.getElementById("expireSelect");
+      const msg = document.getElementById("cadastradoMsg");
+
+      function limparPrefixo(dom) {
+        return dom
+          .replace(/^https?:\/\/(www\.)?/i, "")
+          .toLowerCase()
+          .trim()
+          .replace(/\/$/, "");
+      }
+
+      function somarMeses(data, meses) {
+        const novaData = new Date(data);
+        novaData.setMonth(novaData.getMonth() + meses);
+        return novaData;
+      }
+
+      function formatarData(date) {
+        const dia = String(date.getDate()).padStart(2, "0");
+        const mes = String(date.getMonth() + 1).padStart(2, "0");
+        const ano = date.getFullYear();
+        return `${dia}/${mes}/${ano}`;
+      }
+
+      async function cadastrarDados(dominio, selo, meses) {
+        const hoje = new Date();
+        const dataExpiracao = somarMeses(hoje, parseInt(meses));
+
+        const dados = {
+          dominio: limparPrefixo(dominio),
+          selo: selo,
+          purchase_data: formatarData(hoje),
+          expires_in: formatarData(dataExpiracao),
+        };
+
+        try {
+          await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dados),
+          });
+
+          msg.textContent = "Cadastrado com sucesso!";
+          msg.classList.add("mostrar");
+          setTimeout(() => msg.classList.remove("mostrar"), 2500);
+
+          inputDomain.value = "";
+          inputBadge.value = "";
+          inputExpire.value = "";
+        } catch (error) {
+          console.error("Erro ao cadastrar:", error);
+        }
+      }
+
+      btnCadastrar.addEventListener("click", async () => {
+        const dominio = inputDomain.value.trim();
+        const selo = inputBadge.value;
+        const meses = inputExpire.value;
+
+        if (!dominio) return alert("Digite um domínio para cadastrar.");
+        if (!selo) return alert("Selecione um selo.");
+        if (!meses) return alert("Selecione o prazo de expiração.");
+
+        await cadastrarDados(dominio, selo, meses);
+      });
+    </script>
+  </body>
+</html>
