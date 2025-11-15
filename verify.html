@@ -1,3 +1,11 @@
+<?php
+  require_once($_SERVER['DOCUMENT_ROOT'].'/wp-load.php');
+
+  if (!current_user_can('administrator')) {
+      wp_die('Acesso restrito.');
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
@@ -353,6 +361,7 @@
         gold: "https://cyberalerta.com/wp-content/uploads/2025/11/selo-gold.png",
         silver:
           "https://cyberalerta.com/wp-content/uploads/2025/11/selo-silver.png",
+        error: "https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png",
       };
 
       const coresSelo = {
@@ -393,6 +402,24 @@
             "linear-gradient(135deg, #F5F5F5 0%, #AEB5C2 50%, #FFFFFF 100%)",
           "--button-gradient-hover-shadow":
             "0 0 25px 3px rgba(220,230,255,0.45)",
+        },
+        error: {
+          "--highlight-gradient":
+            "linear-gradient(135deg, rgba(220, 20, 60, 1) 0%, rgba(255, 80, 80, 1) 50%)",
+
+          "--card-gradient":
+            "linear-gradient(180deg, rgba(255, 80, 80, 0) 0%, rgba(255, 80, 80, 0.6) 35%, rgba(255, 80, 80, 1) 100%)",
+
+          "--badge-shadow": "drop-shadow(0 0 5px rgba(255, 80, 80, 0.35))",
+
+          "--button-gradient":
+            "linear-gradient(135deg, #FF9A9A 0%, #FF5050 50%)",
+
+          "--button-gradient-hover":
+            "linear-gradient(135deg, #FF9A9A 0%, #E03030 100%)",
+
+          "--button-gradient-hover-shadow":
+            "0 0 25px 3px rgba(255, 154, 154, 0.62)",
         },
       };
 
@@ -489,20 +516,52 @@
         idSpan.textContent = "";
       }
 
+      function mostrarDesprotegido(query) {
+        aplicarCores("error");
+
+        badgeEl.src = badgeImgs.error;
+
+        tituloEl.innerHTML =
+          '<i class="fa-solid fa-triangle-exclamation highlight"></i> SITE DESPROTEGIDO';
+
+        subtituloEl.innerHTML =
+          'Este site <span class="highlight">não está verificado</span> pelo <b>Cyber Alerta</b> e pode ser alvo de ataques. Resolva agora.';
+
+        dominioSpan.textContent = query;
+        dataSpan.textContent = "—";
+        validadeSpan.textContent = "—";
+        idSpan.textContent = "—";
+
+        infoEl.style.display = "none";
+        btnSolicitar.style.display = "inline-block";
+
+        inputDom.style.display = "none";
+        btnBuscar.style.display = "none";
+      }
+
       btnBuscar.addEventListener("click", async () => {
         const valor = inputDom.value.trim();
         if (!valor) return alert("Digite um domínio ou ID para buscar.");
 
-        mostrarLoading(); 
+        mostrarLoading();
 
         try {
           const resultado = await buscarDominioOuId(valor);
+          /*
           if (!resultado) {
-            esconderLoading(); 
+            esconderLoading();
             alert("Nenhum registro encontrado no banco Cyber Alerta.");
             resetCard();
             return;
           }
+          */
+
+          if (!resultado) {
+            esconderLoading();
+            mostrarDesprotegido(valor);
+            return;
+          }
+
           mostrarDados(resultado);
         } catch (e) {
           console.error(e);
@@ -535,8 +594,7 @@
               mostrarDados(resultado);
             } else {
               esconderLoading();
-              alert("Nenhum registro encontrado no banco Cyber Alerta.");
-              resetCard();
+              mostrarDesprotegido(query);
             }
           } catch (e) {
             console.error(e);
