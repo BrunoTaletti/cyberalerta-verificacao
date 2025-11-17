@@ -361,7 +361,7 @@
         gold: "https://cyberalerta.com/wp-content/uploads/2025/11/selo-gold.png",
         silver:
           "https://cyberalerta.com/wp-content/uploads/2025/11/selo-silver.png",
-        error: "https://cyberalerta.com/wp-content/uploads/2025/10/512x512-1.png",
+        error: "https://cyberalerta.com/wp-content/uploads/2025/11/Erro-cyber-alerta.png",
       };
 
       const coresSelo = {
